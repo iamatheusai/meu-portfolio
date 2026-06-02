@@ -22,7 +22,7 @@ export function Services() {
           eyebrow="Serviços"
           title={
             <>
-              Soluções digitais <span className="text-gradient-primary">de alto padrão</span>.
+              Soluções digitais <span className="text-gradient-primary">de alto padrão</span>
             </>
           }
           description="Cada serviço é entregue com a mesma obsessão por qualidade — do briefing inicial ao lançamento."

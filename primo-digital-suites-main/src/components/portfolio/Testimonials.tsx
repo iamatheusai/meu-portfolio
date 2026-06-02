@@ -32,7 +32,7 @@ export function Testimonials() {
           eyebrow="Depoimentos"
           title={
             <>
-              O que dizem <span className="text-gradient-primary">os clientes</span>.
+              O que dizem <span className="text-gradient-primary">os clientes</span>
             </>
           }
         />

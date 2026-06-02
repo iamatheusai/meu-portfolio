@@ -18,7 +18,7 @@ export function Process() {
           eyebrow="Processo"
           title={
             <>
-              Metodologia <span className="text-gradient-primary">precisa e transparente</span>.
+              Metodologia <span className="text-gradient-primary">precisa e transparente</span>
             </>
           }
           description="Cada projeto segue um processo refinado que entrega previsibilidade e excelência."

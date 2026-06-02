@@ -19,7 +19,7 @@ export function Differentials() {
           title={
             <>
               Por que clientes escolhem{" "}
-              <span className="text-gradient-primary">trabalhar comigo</span>.
+              <span className="text-gradient-primary">trabalhar comigo</span>
             </>
           }
         />

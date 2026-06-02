@@ -57,7 +57,7 @@ export function Portfolio() {
           eyebrow="Portfólio"
           title={
             <>
-              Projetos com <span className="text-gradient-primary">alma e estratégia</span>.
+              Projetos com <span className="text-gradient-primary">alma e estratégia</span>
             </>
           }
           description="Uma seleção de experiências digitais construídas para gerar autoridade e resultado."
