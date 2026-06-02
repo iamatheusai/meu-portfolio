@@ -12,16 +12,13 @@ function WhatsAppIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
 const ease = [0.22, 1, 0.36, 1] as const;
 const spring = { type: "spring" as const, stiffness: 50, damping: 20 };
 
-/* ── Word reveal: slide up + blur dissolve ── */
 function StaggerWord({ text, delay = 0, gradient = false }: { text: string; delay?: number; gradient?: boolean }) {
   return (
-    <span
-      className="inline-block overflow-hidden align-bottom"
-      style={{ paddingRight: "0.32em" }}
-    >
+    <span className="inline-block overflow-hidden align-bottom" style={{ paddingRight: "0.32em" }}>
       <motion.span
         initial={{ y: "112%", filter: "blur(8px)", opacity: 0 }}
         animate={{ y: "0%", filter: "blur(0px)", opacity: 1 }}
@@ -34,7 +31,6 @@ function StaggerWord({ text, delay = 0, gradient = false }: { text: string; dela
   );
 }
 
-/* ── Three particle types: dot · ring · cross ── */
 type Particle = { x: number; y: number; sz: number; dur: number; del: number; kind: 0 | 1 | 2 };
 function CinematicParticles() {
   const [pts, setPts] = useState<Particle[]>([]);
@@ -60,15 +56,8 @@ function CinematicParticles() {
           animate={{ opacity: [0, p.kind === 0 ? 0.65 : 0.28, 0], y: [0, -28, 0] }}
           transition={{ duration: p.dur, repeat: Infinity, ease: "easeInOut", delay: p.del }}
         >
-          {p.kind === 0 && (
-            <div className="rounded-full bg-primary" style={{ width: p.sz, height: p.sz }} />
-          )}
-          {p.kind === 1 && (
-            <div
-              className="rounded-full border border-primary/30"
-              style={{ width: p.sz * 5, height: p.sz * 5 }}
-            />
-          )}
+          {p.kind === 0 && <div className="rounded-full bg-primary" style={{ width: p.sz, height: p.sz }} />}
+          {p.kind === 1 && <div className="rounded-full border border-primary/30" style={{ width: p.sz * 5, height: p.sz * 5 }} />}
           {p.kind === 2 && (
             <div className="relative" style={{ width: p.sz * 4, height: p.sz * 4 }}>
               <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-primary/25" />
@@ -81,7 +70,6 @@ function CinematicParticles() {
   );
 }
 
-/* ── Cinematic scan line sweeping top → bottom ── */
 function ScanLine() {
   return (
     <motion.div
@@ -89,8 +77,7 @@ function ScanLine() {
       style={{
         height: 2,
         zIndex: 15,
-        background:
-          "linear-gradient(90deg, transparent 0%, oklch(0.72 0.18 245 / 0.2) 25%, oklch(0.55 0.22 265 / 0.55) 50%, oklch(0.72 0.18 245 / 0.2) 75%, transparent 100%)",
+        background: "linear-gradient(90deg, transparent 0%, oklch(0.72 0.18 245 / 0.2) 25%, oklch(0.55 0.22 265 / 0.55) 50%, oklch(0.72 0.18 245 / 0.2) 75%, transparent 100%)",
         boxShadow: "0 0 28px 3px oklch(0.72 0.18 245 / 0.2)",
       }}
       initial={{ top: "-2px" }}
@@ -100,7 +87,6 @@ function ScanLine() {
   );
 }
 
-/* ── SVG wireframes for background depth ── */
 function WireframeBrowser() {
   return (
     <svg viewBox="0 0 340 210" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
@@ -143,14 +129,7 @@ function WireframeDashboard() {
         <rect key={i} x={x} y="32" width="48" height="32" rx="3" fill="currentColor" fillOpacity=".03" stroke="currentColor" strokeWidth=".5" />
       ))}
       <rect x="74" y="78" width="152" height="100" rx="3" fill="currentColor" fillOpacity=".02" stroke="currentColor" strokeWidth=".5" />
-      <polyline
-        points="85,165 102,145 120,155 140,125 160,135 180,108 200,120 216,100"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <polyline points="85,165 102,145 120,155 140,125 160,135 180,108 200,120 216,100" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       <rect x="236" y="78" width="54" height="100" rx="3" fill="currentColor" fillOpacity=".02" stroke="currentColor" strokeWidth=".5" />
       <rect x="244" y="90" width="36" height="3" rx="2" fill="currentColor" fillOpacity=".1" />
       <rect x="244" y="100" width="24" height="3" rx="2" fill="currentColor" fillOpacity=".07" />
@@ -183,7 +162,6 @@ function WireframeLanding() {
   );
 }
 
-/* ── Counting stat animation ── */
 function StatValue({ raw }: { raw: string }) {
   const match = raw.match(/(\d+)/);
   if (!match) return <div className="font-display text-2xl md:text-3xl font-medium text-gradient">{raw}</div>;
@@ -226,7 +204,6 @@ function StatValue({ raw }: { raw: string }) {
   );
 }
 
-/* ── Main Hero ── */
 const bgFull = "oklch(0.07 0.012 260)";
 const bgA = (a: number) => `oklch(0.07 0.012 260 / ${a})`;
 
@@ -234,11 +211,27 @@ export function Hero() {
   const headline = "Sites e Landing Pages que transformam autoridade em resultados".split(" ");
   const reduce = useReducedMotion();
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
 
   const { scrollY } = useScroll();
   const gridScrollY = useTransform(scrollY, [0, 700], [0, 260]);
-  const contentY = useTransform(scrollY, [0, 500], [0, -70]);
-  const heroOpacity = useTransform(scrollY, [0, 380], [1, 0]);
+
+  // Desktop: content slides up and fades out on scroll (unchanged)
+  const desktopContentY = useTransform(scrollY, [0, 500], [0, -70]);
+  const desktopHeroOpacity = useTransform(scrollY, [0, 380], [1, 0]);
+
+  // Mobile: content APPEARS as user scrolls (50% → 100% opacity)
+  const mobileContentOpacity = useTransform(scrollY, [0, 220], [0.45, 1]);
+
+  // Mobile: photo parallax — photo moves up slower than scroll, creating depth
+  const mobilePhotoY = useTransform(scrollY, [0, 600], [0, -80]);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     if (reduce) return;
@@ -255,7 +248,7 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden noise">
 
-      {/* ── L0: Very dark cinematic base ── */}
+      {/* L0: cinematic base */}
       <div
         className="absolute inset-0"
         style={{
@@ -266,11 +259,8 @@ export function Hero() {
         }}
       />
 
-      {/* ── L1: 3D perspective floor grid — scroll-driven depth ── */}
-      <div
-        className="absolute inset-0 pointer-events-none overflow-hidden"
-        style={{ perspective: "500px", perspectiveOrigin: "50% 100%" }}
-      >
+      {/* L1: 3D perspective floor grid */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ perspective: "500px", perspectiveOrigin: "50% 100%" }}>
         <motion.div
           style={{
             position: "absolute",
@@ -290,11 +280,11 @@ export function Hero() {
         />
       </div>
 
-      {/* ── L2: Background wireframes ── */}
+      {/* L2: Background wireframes — desktop only */}
       {!reduce && (
         <>
           <motion.div
-            className="absolute pointer-events-none text-primary"
+            className="absolute pointer-events-none text-primary hidden md:block"
             style={{ top: "-6%", right: "-9%", width: "44vw", maxWidth: 540, opacity: 0.036, rotate: "8deg" }}
             animate={{ x: parallax.x * -18, y: [0, -22, 0, 22, 0] }}
             transition={{ x: spring, y: { duration: 22, repeat: Infinity, ease: "easeInOut" } }}
@@ -302,7 +292,7 @@ export function Hero() {
             <WireframeBrowser />
           </motion.div>
           <motion.div
-            className="absolute pointer-events-none text-primary"
+            className="absolute pointer-events-none text-primary hidden md:block"
             style={{ bottom: "-4%", left: "-11%", width: "40vw", maxWidth: 500, opacity: 0.024, rotate: "-7deg" }}
             animate={{ x: parallax.x * 22, y: [0, 18, 0, -18, 0] }}
             transition={{ x: spring, y: { duration: 24, repeat: Infinity, ease: "easeInOut", delay: 4 } }}
@@ -310,7 +300,7 @@ export function Hero() {
             <WireframeDashboard />
           </motion.div>
           <motion.div
-            className="absolute pointer-events-none text-primary"
+            className="absolute pointer-events-none text-primary hidden md:block"
             style={{ top: "4%", left: "5%", width: "22vw", maxWidth: 280, opacity: 0.020, rotate: "-4deg" }}
             animate={{ x: parallax.x * 12, y: [0, 14, 0] }}
             transition={{ x: spring, y: { duration: 20, repeat: Infinity, ease: "easeInOut", delay: 7 } }}
@@ -320,14 +310,14 @@ export function Hero() {
         </>
       )}
 
-      {/* ── L3: Volumetric beams (very subtle) ── */}
+      {/* L3: Volumetric beams */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-20%] right-[12%] w-px h-[140%] bg-gradient-to-b from-transparent via-primary/20 to-transparent rotate-12 blur-[1px]" />
         <div className="absolute top-[-20%] right-[30%] w-px h-[140%] bg-gradient-to-b from-transparent via-accent/15 to-transparent rotate-12" />
         <div className="absolute top-[-20%] left-[20%] w-px h-[140%] bg-gradient-to-b from-transparent via-primary/10 to-transparent -rotate-6" />
       </div>
 
-      {/* ── L4: Glow orbs (drastically reduced) ── */}
+      {/* L4: Glow orbs */}
       <motion.div
         animate={{ x: parallax.x * 28, y: parallax.y * 28 }}
         transition={spring}
@@ -341,88 +331,57 @@ export function Hero() {
         style={{ opacity: 0.055 }}
       />
 
-      {/* ── L5: Atmospheric depth ── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse at 60% 48%, oklch(0.24 0.07 252 / 0.10), transparent 50%)" }}
-      />
+      {/* L5: Atmospheric depth */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 60% 48%, oklch(0.24 0.07 252 / 0.10), transparent 50%)" }} />
 
-      {/* ── L6: Particles ── */}
+      {/* L6: Particles */}
       <CinematicParticles />
 
-      {/* ── L7: Scan line ── */}
+      {/* L7: Scan line */}
       {!reduce && <ScanLine />}
 
-      {/* ── PHOTO — full-bleed, right-anchored, fused into scene ── */}
+      {/* ── PHOTO ── */}
       <motion.div
         className="absolute top-0 bottom-0 right-0 pointer-events-none w-full md:w-[54vw]"
-        style={{ zIndex: 2 }}
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
+        style={{ zIndex: 2, y: isMobile ? mobilePhotoY : undefined }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 1.4, ease, delay: 0.3 }}
       >
-        {/* Subtle aura glow behind photo */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "radial-gradient(ellipse 55% 60% at 52% 35%, oklch(0.28 0.09 248 / 0.08), transparent 72%)",
-          }}
-        />
+        {/* Aura glow behind photo */}
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 60% at 52% 35%, oklch(0.28 0.09 248 / 0.08), transparent 72%)" }} />
 
-        {/* Photo — object-cover, face stays in frame */}
+        {/* Photo */}
         <motion.img
           src={matheusAsset.url}
           alt="Matheus"
           loading="eager"
-          animate={reduce ? undefined : { y: [0, -12, 0] }}
+          animate={reduce || isMobile ? undefined : { y: [0, -12, 0] }}
           transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            objectPosition: "50% 12%",
-            filter: "contrast(1.14) brightness(0.82) saturate(0.75)",
-          }}
+          style={{ objectPosition: "50% 12%", filter: "contrast(1.14) brightness(0.82) saturate(0.75)" }}
         />
 
-        {/* Mobile-only dark overlay so text stays readable */}
-        <div className="absolute inset-0 md:hidden" style={{ background: "oklch(0.07 0.012 260 / 0.68)" }} />
-
-        {/* Left merge — seamless fade into dark background */}
+        {/* Mobile overlay: transparent at top (face visible) → dark at bottom (text readable) */}
         <div
-          className="absolute inset-y-0 left-0"
+          className="absolute inset-0 md:hidden"
           style={{
-            width: "68%",
-            background: `linear-gradient(to right, ${bgFull} 0%, ${bgA(0.94)} 14%, ${bgA(0.76)} 30%, ${bgA(0.52)} 48%, ${bgA(0.24)} 66%, transparent 88%)`,
+            background: `linear-gradient(to bottom,
+              ${bgA(0.18)} 0%,
+              ${bgA(0.28)} 25%,
+              ${bgA(0.50)} 55%,
+              ${bgA(0.80)} 82%,
+              ${bgFull} 100%)`,
           }}
         />
 
-        {/* Bottom merge */}
-        <div
-          className="absolute inset-x-0 bottom-0"
-          style={{
-            height: "40%",
-            background: `linear-gradient(to top, ${bgFull} 0%, ${bgA(0.80)} 26%, ${bgA(0.40)} 56%, transparent 90%)`,
-          }}
-        />
+        {/* Desktop overlays (unchanged) */}
+        <div className="absolute inset-y-0 left-0 hidden md:block" style={{ width: "68%", background: `linear-gradient(to right, ${bgFull} 0%, ${bgA(0.94)} 14%, ${bgA(0.76)} 30%, ${bgA(0.52)} 48%, ${bgA(0.24)} 66%, transparent 88%)` }} />
+        <div className="absolute inset-x-0 bottom-0 hidden md:block" style={{ height: "40%", background: `linear-gradient(to top, ${bgFull} 0%, ${bgA(0.80)} 26%, ${bgA(0.40)} 56%, transparent 90%)` }} />
+        <div className="absolute inset-x-0 top-0 hidden md:block" style={{ height: "22%", background: `linear-gradient(to bottom, ${bgFull} 0%, ${bgA(0.75)} 45%, transparent 100%)` }} />
+        <div className="absolute inset-y-0 right-0" style={{ width: "28%", background: "linear-gradient(to left, oklch(0.35 0.12 245 / 0.06), transparent 100%)" }} />
 
-        {/* Top merge */}
-        <div
-          className="absolute inset-x-0 top-0"
-          style={{
-            height: "22%",
-            background: `linear-gradient(to bottom, ${bgFull} 0%, ${bgA(0.75)} 45%, transparent 100%)`,
-          }}
-        />
-
-        {/* Right rim — faint blue edge light */}
-        <div
-          className="absolute inset-y-0 right-0"
-          style={{
-            width: "28%",
-            background: "linear-gradient(to left, oklch(0.35 0.12 245 / 0.06), transparent 100%)",
-          }}
-        />
-
-        {/* ── Floating metrics card ── */}
+        {/* Floating metrics card — lg only */}
         {!reduce && (
           <motion.div
             className="absolute hidden lg:block"
@@ -430,60 +389,28 @@ export function Hero() {
             animate={{ y: [0, -10, 0], x: [0, 3, 0] }}
             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
           >
-            <div
-              className="rounded-2xl p-4"
-              style={{
-                border: "1px solid oklch(1 0 0 / 0.05)",
-                background: "oklch(0.10 0.018 260 / 0.88)",
-                backdropFilter: "blur(24px)",
-                minWidth: 192,
-                boxShadow: "0 8px 40px oklch(0 0 0 / 0.50), 0 0 0 1px oklch(1 0 0 / 0.04)",
-              }}
-            >
-              <div className="text-[9px] text-muted-foreground uppercase tracking-[0.16em] mb-3">
-                Resultado médio
-              </div>
+            <div className="rounded-2xl p-4" style={{ border: "1px solid oklch(1 0 0 / 0.05)", background: "oklch(0.10 0.018 260 / 0.88)", backdropFilter: "blur(24px)", minWidth: 192, boxShadow: "0 8px 40px oklch(0 0 0 / 0.50), 0 0 0 1px oklch(1 0 0 / 0.04)" }}>
+              <div className="text-[9px] text-muted-foreground uppercase tracking-[0.16em] mb-3">Resultado médio</div>
               <div className="flex items-end gap-3 mb-3">
                 <div>
-                  <div className="font-display text-[2rem] leading-none font-semibold text-foreground">
-                    +347%
-                  </div>
+                  <div className="font-display text-[2rem] leading-none font-semibold text-foreground">+347%</div>
                   <div className="text-[10px] text-emerald-400 mt-1">↑ Conversão</div>
                 </div>
-                <div
-                  className="pl-3"
-                  style={{ borderLeft: "1px solid oklch(1 0 0 / 0.06)" }}
-                >
+                <div className="pl-3" style={{ borderLeft: "1px solid oklch(1 0 0 / 0.06)" }}>
                   <div className="font-display text-2xl leading-none font-semibold text-foreground">98</div>
-                  <div className="text-[10px] mt-1" style={{ color: "oklch(0.72 0.18 245 / 0.7)" }}>
-                    Perf.
-                  </div>
+                  <div className="text-[10px] mt-1" style={{ color: "oklch(0.72 0.18 245 / 0.7)" }}>Perf.</div>
                 </div>
               </div>
               <div className="flex items-end gap-[3px] h-7">
                 {[38, 52, 43, 67, 72, 58, 88, 92].map((h, i) => (
-                  <motion.div
-                    key={i}
-                    className="flex-1 rounded-[2px]"
-                    style={{
-                      height: `${h}%`,
-                      originY: 1,
-                      background:
-                        i >= 6
-                          ? "oklch(0.72 0.18 245 / 0.75)"
-                          : "oklch(0.72 0.18 245 / 0.25)",
-                    }}
-                    initial={{ scaleY: 0 }}
-                    animate={{ scaleY: 1 }}
-                    transition={{ delay: 1.2 + i * 0.07, duration: 0.5, ease }}
-                  />
+                  <motion.div key={i} className="flex-1 rounded-[2px]" style={{ height: `${h}%`, originY: 1, background: i >= 6 ? "oklch(0.72 0.18 245 / 0.75)" : "oklch(0.72 0.18 245 / 0.25)" }} initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ delay: 1.2 + i * 0.07, duration: 0.5, ease }} />
                 ))}
               </div>
             </div>
           </motion.div>
         )}
 
-        {/* ── Floating project preview card ── */}
+        {/* Floating project preview card — lg only */}
         {!reduce && (
           <motion.div
             className="absolute hidden lg:block"
@@ -491,33 +418,17 @@ export function Hero() {
             animate={{ y: [0, 9, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           >
-            <div
-              className="rounded-xl overflow-hidden"
-              style={{
-                width: 160,
-                border: "1px solid oklch(1 0 0 / 0.05)",
-                background: "oklch(0.10 0.018 260 / 0.88)",
-                backdropFilter: "blur(24px)",
-                boxShadow: "0 8px 40px oklch(0 0 0 / 0.45)",
-              }}
-            >
-              <div className="h-[72px] p-2 overflow-hidden" style={{ opacity: 0.5 }}>
-                <WireframeLanding />
-              </div>
-              <div
-                className="px-3 py-2.5"
-                style={{ borderTop: "1px solid oklch(1 0 0 / 0.04)" }}
-              >
+            <div className="rounded-xl overflow-hidden" style={{ width: 160, border: "1px solid oklch(1 0 0 / 0.05)", background: "oklch(0.10 0.018 260 / 0.88)", backdropFilter: "blur(24px)", boxShadow: "0 8px 40px oklch(0 0 0 / 0.45)" }}>
+              <div className="h-[72px] p-2 overflow-hidden" style={{ opacity: 0.5 }}><WireframeLanding /></div>
+              <div className="px-3 py-2.5" style={{ borderTop: "1px solid oklch(1 0 0 / 0.04)" }}>
                 <div className="text-[10px] text-foreground font-medium">Landing Page</div>
-                <div className="text-[9px] text-muted-foreground mt-0.5 tracking-wide">
-                  Design premium
-                </div>
+                <div className="text-[9px] text-muted-foreground mt-0.5 tracking-wide">Design premium</div>
               </div>
             </div>
           </motion.div>
         )}
 
-        {/* Online badge */}
+        {/* Online badge — lg only */}
         <motion.div
           className="absolute glass rounded-full px-3 py-1.5 text-[10px] tracking-widest uppercase text-muted-foreground hidden lg:flex items-center gap-2"
           style={{ top: "44%", left: "3%", border: "1px solid oklch(1 0 0 / 0.06)" }}
@@ -529,12 +440,16 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* ── Content — z above photo ── */}
+      {/* ── CONTENT ── */}
       <motion.div
         className="relative w-full px-6 lg:px-14 z-10"
-        style={{ y: contentY, opacity: heroOpacity }}
+        style={{
+          y: isMobile ? undefined : desktopContentY,
+          opacity: isMobile ? mobileContentOpacity : desktopHeroOpacity,
+        }}
       >
-        <div className="max-w-[660px]">
+        {/* Mobile: centered + full width. Desktop: left-aligned + max-width */}
+        <div className="w-full md:max-w-[660px] mx-auto md:mx-0 text-center md:text-left">
 
           {/* Badge */}
           <motion.div
@@ -544,10 +459,7 @@ export function Hero() {
             className="inline-flex items-center gap-2.5 rounded-full glass px-4 py-1.5 text-xs font-medium text-muted-foreground mb-8 border border-primary/20"
           >
             <span className="relative flex size-2">
-              <span
-                className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 animate-ping"
-                style={{ animationDuration: "2.2s" }}
-              />
+              <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 animate-ping" style={{ animationDuration: "2.2s" }} />
               <span className="relative inline-flex size-2 rounded-full bg-primary" />
             </span>
             <Sparkles className="size-3 text-primary/70" />
@@ -555,7 +467,7 @@ export function Hero() {
           </motion.div>
 
           {/* Headline */}
-          <h1 className="font-display text-[clamp(2.6rem,4.6vw,5rem)] leading-[1.08] tracking-[-0.03em] font-bold">
+          <h1 className="font-display text-[clamp(2.4rem,4.6vw,5rem)] leading-[1.08] tracking-[-0.03em] font-bold">
             {headline.slice(0, 5).map((w, i) => (
               <StaggerWord key={i} text={w} delay={0.3 + i * 0.06} />
             ))}
@@ -573,7 +485,7 @@ export function Hero() {
             animate={{ scaleX: 1, opacity: 1 }}
             transition={{ duration: 1.2, ease, delay: 1.1 }}
             style={{ originX: 0 }}
-            className="mt-8 h-px w-14 bg-gradient-to-r from-primary/70 to-transparent"
+            className="mt-8 h-px w-14 bg-gradient-to-r from-primary/70 to-transparent mx-auto md:mx-0"
           />
 
           {/* Description */}
@@ -581,7 +493,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease, delay: 1.2 }}
-            className="mt-5 max-w-xl text-base lg:text-lg text-muted-foreground leading-relaxed"
+            className="mt-5 max-w-sm md:max-w-xl text-base lg:text-lg text-muted-foreground leading-relaxed mx-auto md:mx-0"
           >
             Desenvolvo experiências digitais premium para empresas que desejam crescer,
             gerar confiança e conquistar mais clientes.
@@ -592,25 +504,17 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease, delay: 1.4 }}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-10 flex flex-wrap items-center justify-center md:justify-start gap-4"
           >
             <a
               href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-medium overflow-hidden transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98]"
-              style={{
-                background: "linear-gradient(135deg, oklch(0.38 0.16 152), oklch(0.30 0.13 155))",
-                border: "1px solid oklch(0.55 0.20 150 / 0.45)",
-                boxShadow: "0 0 32px oklch(0.50 0.18 150 / 0.22), 0 4px 16px oklch(0 0 0 / 0.35)",
-                color: "oklch(0.90 0.13 150)",
-              }}
+              style={{ background: "linear-gradient(135deg, oklch(0.38 0.16 152), oklch(0.30 0.13 155))", border: "1px solid oklch(0.55 0.20 150 / 0.45)", boxShadow: "0 0 32px oklch(0.50 0.18 150 / 0.22), 0 4px 16px oklch(0 0 0 / 0.35)", color: "oklch(0.90 0.13 150)" }}
             >
               <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/[8%] to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-              <span
-                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ boxShadow: "inset 0 0 24px oklch(0.55 0.20 150 / 0.18)" }}
-              />
+              <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ boxShadow: "inset 0 0 24px oklch(0.55 0.20 150 / 0.18)" }} />
               <WhatsAppIcon className="size-4 shrink-0" />
               Falar no WhatsApp
             </a>
@@ -629,7 +533,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease, delay: 1.6 }}
-            className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-5 max-w-2xl"
+            className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-5 max-w-xs md:max-w-2xl mx-auto md:mx-0"
           >
             {[
               ["+50", "Projetos entregues"],
@@ -637,7 +541,7 @@ export function Hero() {
               ["+3 anos", "De experiência"],
               ["100/100", "Performance Score"],
             ].map(([value, label]) => (
-              <div key={label} className="border-l border-primary/20 pl-4">
+              <div key={label} className="border-l border-primary/20 pl-4 text-left">
                 <StatValue raw={value} />
                 <div className="mt-1 text-xs text-muted-foreground">{label}</div>
               </div>
