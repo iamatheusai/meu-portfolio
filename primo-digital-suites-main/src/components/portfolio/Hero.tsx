@@ -355,8 +355,8 @@ export function Hero() {
 
       {/* ── PHOTO — full-bleed, right-anchored, fused into scene ── */}
       <motion.div
-        className="absolute top-0 bottom-0 right-0 pointer-events-none hidden md:block"
-        style={{ width: "54vw", zIndex: 2 }}
+        className="absolute top-0 bottom-0 right-0 pointer-events-none w-full md:w-[54vw]"
+        style={{ zIndex: 2 }}
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.4, ease, delay: 0.3 }}
@@ -382,6 +382,9 @@ export function Hero() {
             filter: "contrast(1.14) brightness(0.82) saturate(0.75)",
           }}
         />
+
+        {/* Mobile-only dark overlay so text stays readable */}
+        <div className="absolute inset-0 md:hidden" style={{ background: "oklch(0.07 0.012 260 / 0.68)" }} />
 
         {/* Left merge — seamless fade into dark background */}
         <div
