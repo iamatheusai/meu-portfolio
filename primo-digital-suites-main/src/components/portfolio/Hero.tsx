@@ -463,7 +463,7 @@ export function Hero() {
               <span className="relative inline-flex size-2 rounded-full bg-primary" />
             </span>
             <Sparkles className="size-3 text-primary/70" />
-            Desenvolvedor Web · Especialista em Conversão
+            Sites & Automações com IA · Especialista em Conversão
           </motion.div>
 
           {/* Headline */}

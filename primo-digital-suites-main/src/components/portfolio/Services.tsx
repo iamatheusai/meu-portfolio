@@ -1,12 +1,12 @@
 import { Reveal, SectionHeader, TiltCard } from "./Reveal";
 import {
-  Rocket, Building2, Store, TrendingUp, Gauge, Smartphone, ArrowUpRight,
+  Rocket, Building2, TrendingUp, Gauge, Smartphone, ArrowUpRight, Bot,
 } from "lucide-react";
 
 const services = [
   { icon: Rocket, title: "Landing Pages", desc: "Páginas de alta conversão estruturadas para transformar tráfego em leads qualificados." },
   { icon: Building2, title: "Sites Institucionais", desc: "Presença digital que comunica autoridade e gera confiança desde o primeiro segundo." },
-  { icon: Store, title: "Negócios Locais", desc: "Sites pensados para profissionais autônomos e empresas locais que querem se destacar." },
+  { icon: Bot, title: "Automações com IA", desc: "Chatbots de atendimento, qualificação de leads e integrações que automatizam tarefas repetitivas." },
   { icon: TrendingUp, title: "Otimização de Conversão", desc: "Estrutura estratégica e copywriting orientado a venda para maximizar resultados." },
   { icon: Gauge, title: "Performance & Velocidade", desc: "Sites otimizados com pontuação 100/100 no Google PageSpeed Insights." },
   { icon: Smartphone, title: "Design Responsivo", desc: "Experiência impecável em qualquer dispositivo, do desktop ao smartphone." },
